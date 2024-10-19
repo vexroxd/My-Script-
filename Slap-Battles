@@ -1,212 +1,141 @@
--- Booting the Library
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 
--- Creating a Window
-local Window = OrionLib:MakeWindow({
-    Name = "[🎃HALLOWEEN] Slap Battles👏",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "OrionTest"
-})
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
--- Creating a Tab
-local Tab = Window:MakeTab({
-    Name = "Candy Farm",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+-- Function to create the GUI
+local function createGUI()
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "HalloweenGUI"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = playerGui
 
--- Creating a Section
-local Section = Tab:AddSection({
-    Name = "Candy Buttons"
-})
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Size = UDim2.new(0, 300, 0, 400)
+    MainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
 
--- Creating six buttons with specified names
-Tab:AddButton({
-    Name = "Collect Candy v1 🍬",
-    Callback = function()
-        -- Function to get the player's character
-local function getPlayerCharacter()
-    local player = game.Players.LocalPlayer
-    return player.Character or player.CharacterAdded:Wait()
-end
+    -- Make the frame draggable
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+    MainFrame.Selectable = true
 
--- Function to teleport to CandyCorn with children
-local function teleportToCandyCorn(candyCorn)
-    -- Check if the CandyCorn has children
-    if #candyCorn:GetChildren() > 0 then
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0, 10)
+    uiCorner.Parent = MainFrame
+
+    local uiStroke = Instance.new("UIStroke")
+    uiStroke.Color = Color3.fromRGB(255, 120, 0)
+    uiStroke.Thickness = 2
+    uiStroke.Parent = MainFrame
+
+    local Title = Instance.new("TextLabel")
+    Title.Name = "Title"
+    Title.Size = UDim2.new(1, -40, 0, 30)
+    Title.Position = UDim2.new(0, 0, 0, 10)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "🎃[HALLOWEEN] Slap Battles👏"
+    Title.TextColor3 = Color3.fromRGB(255, 120, 0)
+    Title.TextSize = 18
+    Title.BackgroundTransparency = 1
+    Title.Parent = MainFrame
+
+    -- Close button
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Name = "CloseButton"
+    CloseButton.Size = UDim2.new(0, 30, 0, 30)
+    CloseButton.Position = UDim2.new(1, -35, 0, 5)
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.Text = "X"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.TextSize = 18
+    CloseButton.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+    CloseButton.BorderSizePixel = 0
+    CloseButton.Parent = MainFrame
+
+    local closeCorner = Instance.new("UICorner")
+    closeCorner.CornerRadius = UDim.new(0, 8)
+    closeCorner.Parent = CloseButton
+
+    CloseButton.MouseButton1Click:Connect(function()
+        MainFrame.Visible = false
+    end)
+
+    local ButtonsFrame = Instance.new("Frame")
+    ButtonsFrame.Name = "ButtonsFrame"
+    ButtonsFrame.Size = UDim2.new(1, -20, 1, -100)
+    ButtonsFrame.Position = UDim2.new(0, 10, 0, 50)
+    ButtonsFrame.BackgroundTransparency = 1
+    ButtonsFrame.Parent = MainFrame
+
+    local function createModernButton(name, position)
+        local button = Instance.new("TextButton")
+        button.Name = name
+        button.Size = UDim2.new(1, 0, 0, 40)
+        button.Position = position
+        button.Font = Enum.Font.GothamSemibold
+        button.Text = name
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextSize = 14
+        button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        button.BorderSizePixel = 0
+        button.TextWrapped = true
+        button.Parent = ButtonsFrame
+
+        local uiCorner = Instance.new("UICorner")
+        uiCorner.CornerRadius = UDim.new(0, 8)
+        uiCorner.Parent = button
+
+        local uiStroke = Instance.new("UIStroke")
+        uiStroke.Color = Color3.fromRGB(255, 120, 0)
+        uiStroke.Thickness = 1
+        uiStroke.Parent = button
+
+        button.MouseEnter:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(80, 80, 80)}):Play()
+        end)
+
+        button.MouseLeave:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+        end)
+
+        return button
+    end
+
+    local button1 = createModernButton("🍬 Collect Candy v1", UDim2.new(0, 0, 0, 0))
+    button1.MouseButton1Click:Connect(function()
+        print("Collect Candy v1 clicked")
+        loadstring(game:HttpGet("https://pastebin.com/raw/f8xygc7f"))()
+    end)
+
+    local button2 = createModernButton("🍭 Collect Candy v2", UDim2.new(0, 0, 0, 50))
+    button2.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/fUPSf0GB"))()
+    end)
+
+    local button3 = createModernButton("🧟 Slap Aura (Zombies)", UDim2.new(0, 0, 0, 100))
+    button3.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/cPVD2sha"))()
+    end)
+
+    local button4 = createModernButton("🎃 Go to Event Area", UDim2.new(0, 0, 0, 150))
+    button4.MouseButton1Click:Connect(function()
         -- Get the player's character
-        local character = getPlayerCharacter()
-        -- Teleport the character to the CandyCorn's position
-        character:SetPrimaryPartCFrame(CFrame.new(candyCorn.Position))
-    end
-end
-
--- Function to set up CandyCorn event listeners
-local function setupCandyCornListeners()
-    -- Loop through all existing CandyCorns and connect the ChildAdded event
-    for _, candyCorn in pairs(workspace.CandyCorns:GetChildren()) do
-        -- Check if the object is a Part
-        if candyCorn:IsA("Part") then
-            -- Connect the ChildAdded event
-            candyCorn.ChildAdded:Connect(function()
-                teleportToCandyCorn(candyCorn)
-            end)
-
-            -- Check if it already has children when the script starts
-            teleportToCandyCorn(candyCorn)
-        end
-    end
-
-    -- Also connect to any new CandyCorns that may be added in the future
-    workspace.CandyCorns.ChildAdded:Connect(function(newCandyCorn)
-        if newCandyCorn:IsA("Part") then
-            -- Connect the ChildAdded event for the new CandyCorn
-            newCandyCorn.ChildAdded:Connect(function()
-                teleportToCandyCorn(newCandyCorn)
-            end)
-
-            -- Check if it already has children when it spawns
-            teleportToCandyCorn(newCandyCorn)
-        end
-    end)
-end
-
--- Main loop to handle character respawn
-local function main()
-    setupCandyCornListeners()
-
-    -- Get the player's character and listen for respawns
-    local player = game.Players.LocalPlayer
-    player.CharacterAdded:Connect(function()
-        -- Wait for the new character to load
-        local character = getPlayerCharacter()
-        -- Optionally, you can reset any properties or states here if needed
-
-        -- Re-establish CandyCorn listeners after respawn
-        setupCandyCornListeners()
-    end)
-
-    -- Initial character setup
-    getPlayerCharacter() -- This ensures we have the current character
-end
-
--- Start the main loop
-main()
-    end    
-})
-
-
-
-Tab:AddButton({
-    Name = "Collect Candy v2 🍭",
-    Callback = function()
-       -- Get the player's head (used to simulate the touch)
-local playerHead = game.Players.LocalPlayer.Character.Head
-
--- Keep running the script
-while true do
-    -- Loop through all the CandyCorns in the workspace
-    for i, v in pairs(game:GetService("Workspace").CandyCorns:GetDescendants()) do
-        -- Check if the object is "TouchInterest" and its parent exists
-        if v.Name == "TouchInterest" and v.Parent then
-            -- Simulate a touch event using firetouchinterest
-            firetouchinterest(playerHead, v.Parent, 0)  -- Begin touch
-            firetouchinterest(playerHead, v.Parent, 1)  -- End touch
-        end
-    end
-    wait(0.01) -- Tiny delay to avoid crashing, but keeps the script fast
-end
-    end    
-})
-
-
-
-Tab:AddButton({
-    Name = "Go to Event 🎉",
-    Callback = function()
-       -- Get the player's character
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
 -- Teleport the character to the specified coordinates
 character:SetPrimaryPartCFrame(CFrame.new(429, 360, 20))
-    end    
-})
 
-Tab:AddButton({
-    Name = "Slap Aura Zombies 👻",
-    Callback = function()
-       
--- Script generated by TurtleSpy, made by Intrer#0421
+    end)
 
-_G.HeadSize = 14  -- Adjusted head size
-_G.Disabled = true
-
--- Table to keep track of hits on each enemy
-local enemyHitCounts = {}
-local lastHitTime = {} -- Table to track last hit time for each enemy
-
--- Time between hits (in seconds)
-local hitCooldown = 1
-
--- Function to reset hit counts for all enemies
-local function resetHitCounts()
-    for enemy, _ in pairs(enemyHitCounts) do
-        enemyHitCounts[enemy] = 0
-    end
-end
-
-game:GetService('RunService').RenderStepped:connect(function()
-    if _G.Disabled then
-        -- Check for enemies in the workspace
-        local enemies = game:GetService('Workspace').Enemies:GetChildren()
-        
-        -- Only run the hit logic if there are enemies
-        if #enemies > 0 then
-            -- Loop through all the enemies
-            for _, enemy in pairs(enemies) do
-                -- Ensure the enemy has a HumanoidRootPart
-                if enemy:FindFirstChild("HumanoidRootPart") then
-                    -- Initialize hit count and last hit time for this enemy if they don't exist
-                    if not enemyHitCounts[enemy] then
-                        enemyHitCounts[enemy] = 0
-                    end
-                    if not lastHitTime[enemy] then
-                        lastHitTime[enemy] = 0
-                    end
-
-                    -- Check if the enemy has been hit less than 15 times and if enough time has passed since the last hit
-                    if enemyHitCounts[enemy] < 15 and tick() - lastHitTime[enemy] >= hitCooldown then
-                        -- Fire the remote event to hit the enemy
-                        game:GetService("ReplicatedStorage").Remotes.GeneralHit:FireServer(enemy.HumanoidRootPart)
-
-                        -- Increment the hit count for this enemy
-                        enemyHitCounts[enemy] = enemyHitCounts[enemy] + 1
-                        lastHitTime[enemy] = tick() -- Update the last hit time
-
-                        -- Optional: Modify the enemy's appearance
-                        pcall(function()
-                            enemy.HumanoidRootPart.Transparency = 0.7
-                            enemy.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
-                            enemy.HumanoidRootPart.Material = "Neon"
-                            enemy.HumanoidRootPart.CanCollide = false
-                        end)
-                    end
-                end
-            end
-        else
-            -- Reset hit counts if no enemies are present
-            resetHitCounts()
-        end
-    end
-end)
-    end    
-})
-
-Tab:AddButton({
-    Name = "Safe Zone 🛡️",
-    Callback = function()
+    local button5 = createModernButton("🛡️ Safe Zone", UDim2.new(0, 0, 0, 200))
+    button5.MouseButton1Click:Connect(function()
         -- Get the player's character
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -214,35 +143,89 @@ local character = player.Character or player.CharacterAdded:Wait()
 -- Teleport the character to the specified coordinates
 character:SetPrimaryPartCFrame(CFrame.new(-13, 10, -266))
 
-    end    
-})
+    end)
 
-Tab:AddButton({
-    Name = "Rejoin 🔄",
-    Callback = function()
+    local button6 = createModernButton("🔄 Rejoin", UDim2.new(0, 0, 0, 250))
+    button6.MouseButton1Click:Connect(function()
         local teleportService = game:GetService("TeleportService") -- TeleportService
-        local localPlayer = game:GetService("Players").LocalPlayer -- LocalPlayer
-        
-        -- Function to rejoin the server
-        teleportService:Teleport(game.PlaceId, localPlayer) -- Rejoin to the same server
-        
-    end    
-})
+local localPlayer = game:GetService("Players").LocalPlayer -- LocalPlayer
 
--- Creating a new Tab for Credits
-local CreditsTab = Window:MakeTab({
-    Name = "Credits",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+-- Function to rejoin the server
+teleportService:Teleport(game.PlaceId, localPlayer) -- Rejoin to the same server
 
--- Adding a button to the Credits Tab
-CreditsTab:AddButton({
-    Name = "Credits to Geeky Blox 🥳",
-    Callback = function()
-        print("Credits to Geeky Blox!")
-    end    
-})
+    end)
 
--- Finishing your script (REQUIRED)
-OrionLib:Init()
+    local CreditText = Instance.new("TextLabel")
+    CreditText.Name = "CreditText"
+    CreditText.Size = UDim2.new(1, 0, 0, 20)
+    CreditText.Position = UDim2.new(0, 0, 1, -25)
+    CreditText.Font = Enum.Font.GothamSemibold
+    CreditText.Text = "Made by geeky blox"
+    CreditText.TextColor3 = Color3.fromRGB(200, 200, 200)
+    CreditText.TextSize = 12
+    CreditText.BackgroundTransparency = 1
+    CreditText.Parent = MainFrame
+
+    -- Add a simple fade-in animation
+    MainFrame.Transparency = 1
+    for i = 1, 10 do
+        MainFrame.Transparency = 1 - (i * 0.1)
+        wait(0.02)
+    end
+
+    return ScreenGui
+end
+
+-- Create the GUI initially
+local gui = createGUI()
+
+-- Create a ScreenGui for the toggle button
+local toggleGui = Instance.new("ScreenGui")
+toggleGui.Name = "ToggleGUI"
+toggleGui.ResetOnSpawn = false
+toggleGui.Parent = playerGui
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Name = "ToggleButton"
+toggleButton.Size = UDim2.new(0, 40, 0, 40)
+toggleButton.Position = UDim2.new(0, 10, 0.5, -20)
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.Text = "🎃"
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.TextSize = 24
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 120, 0)
+toggleButton.BorderSizePixel = 0
+toggleButton.Parent = toggleGui
+
+local toggleCorner = Instance.new("UICorner")
+toggleCorner.CornerRadius = UDim.new(0, 20)
+toggleCorner.Parent = toggleButton
+
+toggleButton.MouseButton1Click:Connect(function()
+    gui.MainFrame.Visible = not gui.MainFrame.Visible
+end)
+
+-- Function to ensure GUI persistence
+local function onCharacterAdded(character)
+    if not playerGui:FindFirstChild("HalloweenGUI") then
+        gui = createGUI()
+    end
+    if not playerGui:FindFirstChild("ToggleGUI") then
+        toggleGui.Parent = playerGui
+    end
+end
+
+-- Connect the function to the CharacterAdded event
+player.CharacterAdded:Connect(onCharacterAdded)
+
+-- Run the function once to create the GUI if the character already exists
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+
+-- Hotkey to toggle GUI visibility
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.RightControl then
+        gui.MainFrame.Visible = not gui.MainFrame.Visible
+    end
+end)
