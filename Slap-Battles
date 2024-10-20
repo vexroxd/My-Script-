@@ -125,13 +125,17 @@ local function createGUI()
 
     local button4 = createModernButton("🎃 Go to Event Area", UDim2.new(0, 0, 0, 150))
     button4.MouseButton1Click:Connect(function()
-        -- Get the player's character
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+local TeleportService = game:GetService("TeleportService")
+local placeID = 103505724406848 -- The place ID you want to teleport to
+local player = game.Players.LocalPlayer -- This gets the player
 
--- Teleport the character to the specified coordinates
-character:SetPrimaryPartCFrame(CFrame.new(429, 360, 20))
+-- Function to teleport the player
+local function teleportToPlace()
+    TeleportService:Teleport(placeID, player)
+end
 
+-- You can call the teleport function when needed
+teleportToPlace()
     end)
 
     local button5 = createModernButton("🛡️ Safe Zone", UDim2.new(0, 0, 0, 200))
